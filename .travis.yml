@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - 0.10
   - 0.8
-install: "npm -g install elasticio-cli xml2js jshint"
+before_install: "npm -g install elasticio-cli jshint"
+install: "npm install xml2js"
 before_script: "jshint helloworld"
 scripts:
   test: "elasticio cmp:process -p helloworld/services.js -x simplexml"
