@@ -1,0 +1,3 @@
+"scripts": {
+  "test": "elasticio cmp:process -p helloworld/services.js -x simplexml"
+}
