@@ -1,0 +1,36 @@
+{
+  "title": "elastic-helloworld",
+  "description": "Sample implementation for elastic.io data mapper"
+    "credentials" : {
+      // TODO
+  },
+  "actions": {
+    "services": {
+      "main":"./services.js",
+      "title": "Services",
+      "fields":{
+        // TODO
+      },
+      "metadata": {
+        "in": {
+          "type": "object",
+          "properties": {
+            "xml": {
+              "type": "string",
+              "required": true
+            },
+          },
+        },
+        "out": {
+          "type": "object",
+          "properties": {
+            "log": {
+              "type": "string",
+              "required": true
+            },
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "fixtures":{
+    "simplexml":{
+      "cfg":{
+        "taskId": "123",
+        "configuration":{
+        }
+      },
+      "msg" : {
+        "body" : {
+          "payload" : "<xml>Hello World!</xml>"
+        }
+      }
+    }
+  }
+}
