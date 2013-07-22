@@ -1,11 +1,11 @@
 var parseString = require('xml2js').parseString;
 
 exports.init = function(msg, cfg, cb) {
-  console.log('init')
+  console.log('init');
 };
 
 exports.process = function(msg, cfg, next) {
-  console.log('process')
+  console.log('process');
   var payload = msg.body.payload;
   if (typeof payload === "string") {
     console.log(payload);
@@ -17,5 +17,5 @@ exports.process = function(msg, cfg, next) {
 };
 
 exports.shutdown = function(msg, cfg, cb, snapshot) {
-  console.log('shutdown')
+  console.log('shutdown');
 };
