@@ -16,16 +16,18 @@ exports.process = function(msg, cfg, next) {
       decoded = new Buffer(content, 'base64').toString('utf8');
       debug(decoded);
       var parseString = require('xml2js').parseString;
-      parseString(decoded, function (err, result) {
-        debug(JSON.stringify(result));
-        });
+      parseString(decoded, process_data);
     }
   }
 };
 
+process_data = function(err, result) {
+  debug(JSON.stringify(result));
+};
+
 debug = function(msg) {
-  console.log("DEBUG: " + msg)
-}
+  console.log("DEBUG: " + msg);
+};
 
 exports.shutdown = function(msg, cfg, cb, snapshot) {
   debug('shutdown');
