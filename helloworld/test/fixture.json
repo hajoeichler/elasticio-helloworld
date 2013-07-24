@@ -7,8 +7,10 @@
         }
       },
       "msg" : {
-        "body" : {
-          "payload" : "<xml>Hello World!</xml>"
+        "attachments": {
+          "foo.xml" : {
+            "content": "PHhtbD5IZWxsbyBXb3JsZCE8L3htbD4="
+          }
         }
       }
     }

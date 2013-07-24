@@ -1,21 +1,32 @@
 var parseString = require('xml2js').parseString;
 
 exports.init = function(msg, cfg, cb) {
-  console.log('init');
+  debug('init');
 };
 
 exports.process = function(msg, cfg, next) {
-  console.log('process');
-  var payload = msg.body.payload;
-  if (typeof payload === "string") {
-    console.log(payload);
-    var parseString = require('xml2js').parseString;
-    parseString(payload, function (err, result) {
-      console.dir(result);
-      });
+  debug('process');
+  var attachments = msg.attachments;
+  debug(JSON.stringify(attachments));
+  for (var file in attachments) {
+    debug(file);
+    var content = attachments[file].content;
+    debug(content);
+    if (typeof content === 'string') {
+      decoded = new Buffer(content, 'base64').toString('utf8');
+      debug(decoded);
+      var parseString = require('xml2js').parseString;
+      parseString(decoded, function (err, result) {
+        debug(JSON.stringify(result));
+        });
+    }
   }
 };
 
+debug = function(msg) {
+  console.log("DEBUG: " + msg)
+}
+
 exports.shutdown = function(msg, cfg, cb, snapshot) {
-  console.log('shutdown');
+  debug('shutdown');
 };

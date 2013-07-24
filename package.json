@@ -1,4 +1,5 @@
 {
+  "name":"elasticio-helloworld",
   "dependencies" : {
    "xml2js" : "0.2.8"
   },
