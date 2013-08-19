@@ -1,12 +1,10 @@
 basedir = '../'
 
+services = require basedir + 'services.js'
+
 describe 'Elastic Integration', ->
   beforeEach ->
     console.log('huhu')
 
-  it 'First test', ->
-    console.log('hihi')
-    expect('this').toEqual('this')
-
-  it 'process_data', ->
-    process_data("foo", { })
+  it 'debug', ->
+    services.debug('Hi Debug World')

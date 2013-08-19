@@ -25,7 +25,7 @@ process_data = function(err, result) {
   debug(JSON.stringify(result));
 };
 
-debug = function(msg) {
+exports.debug = function(msg) {
   console.log("DEBUG: " + msg);
 };
 
