@@ -9,11 +9,13 @@ exports.process = function(msg, cfg, next) {
   debug('process');
   debug('process - msg: ' + msg);
 
-  data = {
+  var content = new Buffer("Hello World").toString('base64');
+
+  var data = {
     body : {}
     attachments: {
       "data.xml" : {
-        "content" : btoa("BASE64 encoded content of the XML file")
+        "content" : content
       }
     }
   };
