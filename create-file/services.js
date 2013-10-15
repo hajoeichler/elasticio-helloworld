@@ -5,12 +5,6 @@ debug = function(msg) {
   console.log("DEBUG: " + msg);
 };
 
-exports.init = function(msg, cfg, cb) {
-  debug('init');
-  debug('init - msg: ' + msg);
-  debug('init - cfg: ' + cfg);
-};
-
 exports.process = function(msg, cfg, next) {
   debug('process');
   debug('process - msg: ' + msg);
@@ -69,8 +63,4 @@ exports.getCustomers = function(projectKey, accessToken) {
     },
     timeout: 3000
   };
-};
-
-exports.shutdown = function(msg, cfg, cb, snapshot) {
-  debug('shutdown');
 };
