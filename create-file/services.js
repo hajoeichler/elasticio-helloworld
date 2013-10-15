@@ -11,22 +11,21 @@ exports.init = function(msg, cfg, cb) {
   debug('init - cfg: ' + cfg);
 };
 
-// exports.process = function(msg, cfg, next) {
-//   debug('process');
-//   debug('process - msg: ' + msg);
-//   login(exports.getCustomer);
-//   data = {
-//     body : {}
-//     attachments: {
-//       "data.xml" : {
-//         "content" : "BASE64 encoded content of the XML file"
-//       }
-//     }
-//   };
-//   next(data);
-// };
-// 
-// 
+exports.process = function(msg, cfg, next) {
+  debug('process');
+  debug('process - msg: ' + msg);
+
+  data = {
+    body : {}
+    attachments: {
+      "data.xml" : {
+        "content" : btoa("BASE64 encoded content of the XML file")
+      }
+    }
+  };
+  next(data);
+};
+
 exports.login = function(projectKey, clientId, clientSecret, callback) {
   debug('login');
   var params = {
