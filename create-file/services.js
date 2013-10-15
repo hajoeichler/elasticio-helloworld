@@ -9,7 +9,8 @@ exports.process = function(msg, cfg, next) {
   debug('process');
   debug('process - msg: ' + msg);
 
-  var content = new Buffer("Hello World").toString('base64');
+  var now = new Date();
+  var content = new Buffer("Hello World at " + now).toString('base64');
 
   var data = {
     body : {}
