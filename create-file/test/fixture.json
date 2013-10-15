@@ -1,0 +1,18 @@
+{
+  "fixtures":{
+    "simplexml":{
+      "cfg":{
+        "taskId": "123",
+        "configuration":{
+        }
+      },
+      "msg" : {
+        "attachments": {
+          "foo.xml" : {
+            "content": "PHhtbD5IZWxsbyBXb3JsZCE8L3htbD4="
+          }
+        }
+      }
+    }
+  }
+}

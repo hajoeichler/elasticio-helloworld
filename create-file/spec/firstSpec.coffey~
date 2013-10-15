@@ -1,0 +1,13 @@
+basedir = '../'
+
+services = require basedir + 'services.js'
+
+describe 'Elastic Integration', ->
+  beforeEach ->
+    console.log('before')
+
+  it 'getCustomers', ->
+    services.init(1, 2, 3)
+    # services.getCustomers('fedora1', '')
+    # services.getCustomers('fedora1', 'RNwKAtQ1y-ArZu1ah1STjL9P', 'AO_nEVb77TSSI_95rpgLv6a1TXRY5Zpm', doneFunc )
+

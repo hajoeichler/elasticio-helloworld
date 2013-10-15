@@ -1,7 +1,8 @@
 {
   "name":"elasticio-helloworld",
   "dependencies" : {
-   "xml2js" : "0.2.8"
+   "xml2js" : "0.2.8",
+   "request" : "2.x"
   },
   "scripts": {
     "test": "elasticio cmp:process -p helloworld/services.js -x simplexml"
