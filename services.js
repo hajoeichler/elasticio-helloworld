@@ -144,30 +144,66 @@ exports.mapOrder = function(order) {
     exports.add(xSi, si, 'shippingMethodName');
     exports.add(xSi, si, 'trackingData');
 
-    var p = si.price;
-    var xP = xSi.e('price');
-    exports.money(xP, p, 'value');
-    exports.add(xP, p, 'country');
-    exports.customerGroup(xP, p);
+    exports.price(xSi, si);
+    exports.taxRate(xSi, si);
+  }
 
-    var tr = si.taxRate;
-    var xTr = xSi.e('taxRate');
-    exports.add(xTr, tr, 'id');
-    exports.add(xTr, tr, 'name');
-    exports.add(xTr, tr, 'amount');
-    exports.add(xTr, tr, 'includedInPrice');
-    exports.add(xTr, tr, 'country');
-    exports.add(xTr, tr, 'state');
+  if (order.lineItems !== undefined) {
+    for (var j = 0; j < order.lineItems.length; j++) {
+      var li = order.lineItems[j];
+      var xLi = xml.e('lineItems');
+      exports.add(xLi, li, 'id');
+      exports.add(xLi, li, 'productId');
+      exports.add(xLi, li, 'name');
+      exports.add(xLi, li, 'quantity');
+
+      exports.price(xLi, li);
+      exports.taxRate(xLi, li);
+
+      var variant = li.variant;
+      var xVariant = xLi.e('variant');
+      exports.add(xVariant, variant, 'id');
+      exports.add(xVariant, variant, 'sku');
+
+      if (variant.prices !== undefined) {
+//        for (var j = 0; j < variant.prices.length; j++) {
+//        }
+      }
+
+      if (variant.attributes !== undefined) {
+//        for (var j = 0; j < variant.attributes.length; j++) {
+//        }
+      }
+    }
   }
 
   debug('order in xml' + doc.toString());
   return doc;
 };
 
-exports.money = function(xml, element, name) {
+exports.money = function(xml, elem, name) {
   xml.e(name)
-    .e('currencyCode').t(element[name].currencyCode).up()
-    .e('centAmount').t(element[name].centAmount);
+    .e('currencyCode').t(elem[name].currencyCode).up()
+    .e('centAmount').t(elem[name].centAmount);
+};
+
+exports.price = function(xml, elem, name) {
+  var p = elem.price;
+  var xP = xml.e('price');
+  exports.money(xP, p, 'value');
+  exports.add(xP, p, 'country');
+  exports.customerGroup(xP, p);
+};
+
+exports.taxRate = function(xml, elem) {
+    var tr = elem.taxRate;
+    var xTr = xml.e('taxRate');
+    exports.add(xTr, tr, 'id');
+    exports.add(xTr, tr, 'name');
+    exports.add(xTr, tr, 'amount');
+    exports.add(xTr, tr, 'includedInPrice');
+    exports.add(xTr, tr, 'country');
+    exports.add(xTr, tr, 'state');
 };
 
 exports.customerGroup = function(xml, elem) {
