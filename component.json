@@ -4,7 +4,7 @@
   "actions": {
     "services": {
       "main":"./services.js",
-      "title": "Services",
+      "title": "Services"
     }
   }
 }
