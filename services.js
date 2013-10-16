@@ -39,7 +39,7 @@ exports.login = function(projectKey, clientId, clientSecret, callback, finish) {
     if (response.statusCode === 200) {
       var jsonBody = JSON.parse(body);
       debug('login - token: ' + jsonBody.access_token);
-      callback(projectKey, jsonBody.access_token, finish);
+      callback(projectKey, jsonBody.access_token, exports.mapOrders, finish);
     } else {
       throw new Error('Failed to get access token - status: ' + response.statusCode);
     }
@@ -87,7 +87,8 @@ exports.mapOrders = function(json, finish) {
       content: base64
     };
   }
-  finish(data);
+  debug('1' + finish);
+  finish(null, data);
 };
 
 exports.mapOrder = function(order) {

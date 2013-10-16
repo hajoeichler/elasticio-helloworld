@@ -1,14 +1,14 @@
 {
-  "fixtures":{
-    "simplexml":{
-      "cfg":{
-        "taskId": "123",
-        "configuration":{
-        }
+  "fixtures": {
+    "simplexml": {
+      "cfg": {
+        "projectKey": "snowflake2",
+        "clientId": "QKStD-HjZLZGRqie2SPvzXSt",
+        "clientSecret": "lnkNveGqslWKwt-qVE5yqVE0KBKM-sQL"
       },
-      "msg" : {
+      "msg": {
         "attachments": {
-          "foo.xml" : {
+          "foo.xml": {
             "content": "PHhtbD5IZWxsbyBXb3JsZCE8L3htbD4="
           }
         }
