@@ -29,6 +29,7 @@ exports.login = function(projectKey, clientId, clientSecret, callback, finish) {
     method: 'POST',
     body: payload,
     headers: {
+      'User-Agent': 'elastic.io <-> sphere.io: order export',
       'Content-Type': 'application/x-www-form-urlencoded',
       'Content-Length': payload.length
     },
@@ -54,6 +55,7 @@ exports.getOrders = function(projectKey, accessToken, callback, finish) {
     uri: 'https://api.sphere.io/' + projectKey + '/orders',
     method: 'GET',
     headers: {
+      'User-Agent': 'elastic.io <-> sphere.io: order export',
       'Authorization': 'Bearer ' + accessToken
     },
     timeout: 5000
