@@ -123,3 +123,24 @@ describe '#mapOrder', ->
       expect(result.order.paymentInfo).not.toBeUndefined()
       expect(result.order.paymentInfo[0].paymentID[0]).toBe '7'
       expect(result.order.paymentInfo[0].paymentMethod[0]).toBe 'Cash'
+
+  it 'shippingInfo', ->
+    o = {
+      "shippingInfo": {
+        "price": {
+          "value": {
+            "currencyCode": "USD",
+            "centAmount": 999
+          }
+        },
+        "taxRate": {
+          "includedInPrice": true
+        }
+      }
+    }
+    doc = services.mapOrder(o)
+    console.log(doc.toString({ pretty: true }))
+    parseString doc, (err, result) ->
+      expect(result.order.shippingInfo).not.toBeUndefined()
+      expect(result.order.shippingInfo[0].price[0].value[0].centAmount[0]).toBe '999'
+      expect(result.order.shippingInfo[0].taxRate[0].includedInPrice[0]).toBe 'true'

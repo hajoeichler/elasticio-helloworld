@@ -108,18 +108,16 @@ exports.mapOrder = function(order) {
   exports.add(xml, order, 'paymentState');
 
   if (order.taxedPrice !== undefined) {
-    var p = order.taxedPrice;
-    var xPrice = xml.e('taxedPrice')
-    .e('totalNet').e('currencyCode').t(p.totalNet.currencyCode).up().e('centAmount').t(p.totalNet.centAmount).up().up()
-    .e('totalGross').e('currencyCode').t(p.totalGross.currencyCode).up().e('centAmount').t(p.totalGross.centAmount).up().up();
+    var price = order.taxedPrice;
+    var xPrice = xml.e('taxedPrice');
+    exports.money(xPrice, price, 'totalNet');
+    exports.money(xPrice, price, 'totalGross');
 
-    for (var i = 0; i < p.taxPortions.length; i++) {
-      var t = p.taxPortions[i];
-      xPrice.e('taxPortions')
-        .e('rate').t(t.rate).up()
-        .e('amount')
-          .e('currencyCode').t(t.amount.currencyCode).up()
-          .e('centAmount').t(t.amount.centAmount);
+    for (var i = 0; i < price.taxPortions.length; i++) {
+      var t = price.taxPortions[i];
+      var xT = xPrice.e('taxPortions');
+      xT.e('rate').t(t.rate);
+      exports.money(xT, t, 'amount');
     }
   }
 
@@ -131,13 +129,7 @@ exports.mapOrder = function(order) {
     exports.mapAddress(xml.e('billingAddress'), order.billingAddress);
   }
 
-  if (order.customerGroup) {
-    var cg = order.customerGroup;
-    var xCg = xml.e('customerGroup');
-    exports.add(xCg, cg, 'id');
-    exports.add(xCg, cg, 'version');
-    exports.add(xCg, cg, 'name');
-  }
+  exports.customerGroup(xml, order);
 
   if (order.paymentInfo) {
     var pi = order.paymentInfo;
@@ -146,8 +138,46 @@ exports.mapOrder = function(order) {
     exports.add(xPi, pi, 'paymentID');
   }
 
+  if (order.shippingInfo) {
+    var si = order.shippingInfo;
+    var xSi = xml.e('shippingInfo');
+    exports.add(xSi, si, 'shippingMethodName');
+    exports.add(xSi, si, 'trackingData');
+
+    var p = si.price;
+    var xP = xSi.e('price');
+    exports.money(xP, p, 'value');
+    exports.add(xP, p, 'country');
+    exports.customerGroup(xP, p);
+
+    var tr = si.taxRate;
+    var xTr = xSi.e('taxRate');
+    exports.add(xTr, tr, 'id');
+    exports.add(xTr, tr, 'name');
+    exports.add(xTr, tr, 'amount');
+    exports.add(xTr, tr, 'includedInPrice');
+    exports.add(xTr, tr, 'country');
+    exports.add(xTr, tr, 'state');
+  }
+
   debug('order in xml' + doc.toString());
   return doc;
+};
+
+exports.money = function(xml, element, name) {
+  xml.e(name)
+    .e('currencyCode').t(element[name].currencyCode).up()
+    .e('centAmount').t(element[name].centAmount);
+};
+
+exports.customerGroup = function(xml, elem) {
+  var cg = elem.customerGroup;
+  if (cg) {
+    var xCg = xml.e('customerGroup');
+    exports.add(xCg, cg, 'id');
+    exports.add(xCg, cg, 'version');
+    exports.add(xCg, cg, 'name');
+  }
 };
 
 exports.mapAddress = function(xml, address) {
