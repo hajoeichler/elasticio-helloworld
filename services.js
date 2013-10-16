@@ -13,20 +13,10 @@ exports.process = function(msg, cfg, next) {
   var now = new Date();
   var content = new Buffer("Hello World at " + now).toString('base64');
 
-  // exports.login(cfg.projectKey, cfg.clientId, cfg.clientSecret)
-
-  var data = {
-    body : {},
-    attachments: {
-      "data.xml": {
-        content: content
-      }
-    }
-  };
-  next(data);
+  exports.login(cfg.projectKey, cfg.clientId, cfg.clientSecret, getOrders, next);
 };
 
-exports.login = function(projectKey, clientId, clientSecret, callback) {
+exports.login = function(projectKey, clientId, clientSecret, callback, finish) {
   debug('login');
   var params = {
     'grant_type': 'client_credentials',
@@ -51,14 +41,14 @@ exports.login = function(projectKey, clientId, clientSecret, callback) {
     if (response.statusCode === 200) {
       var jsonBody = JSON.parse(body);
       debug('login - token: ' + jsonBody.access_token);
-      callback(projectKey, jsonBody.access_token);
+      callback(projectKey, jsonBody.access_token, finish);
     } else {
       throw new Error('Failed to get access token with status: ' + response.statusCode);
     }
   });
 };
 
-exports.getOrders = function(projectKey, accessToken, callback) {
+exports.getOrders = function(projectKey, accessToken, callback, finish) {
   debug('getOrders');
   var request_options = {
     uri: 'https://api.sphere.io/' + projectKey + '/orders',
@@ -75,20 +65,31 @@ exports.getOrders = function(projectKey, accessToken, callback) {
     if (response.statusCode === 200) {
       var jsonBody = JSON.parse(body);
       debug('SPHERE orders: ' + jsonBody.total);
-      callback(jsonBody);
+      callback(jsonBody, finish);
     } else {
-      debug('Problem on fetching orders: ' + body);
-      callback();
+      throw new Error('Problem on fetching orders: ' + body);
     }
   });
 };
 
-exports.mapOrders = function(json) {
+exports.mapOrders = function(json, finish) {
   var orders = json.results;
   debug('mapOrder: ' + orders.length);
+
+  var data = {
+    body: {},
+    attachments: {}
+  };
+
   for (var i = 0; i < orders.length; i++) {
-    exports.mapOrder(orders[i]);
+    var xmlOrder = exports.mapOrder(orders[i]);
+    var fileName = orders[i].id + ".xml";
+    var base64 = new Buffer(xmlOrder.toString()).toString('base64');
+    data.attachments[fileName] = {
+      content: base64
+    };
   }
+  finish(data);
 };
 
 exports.mapOrder = function(order) {
