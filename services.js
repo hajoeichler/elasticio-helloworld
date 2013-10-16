@@ -54,7 +54,6 @@ exports.login = function(projectKey, clientId, clientSecret, callback) {
       callback(projectKey, jsonBody.access_token);
     } else {
       throw new Error('Failed to get access token with status: ' + response.statusCode);
-      callback();
     }
   });
 };
@@ -86,11 +85,11 @@ exports.getOrders = function(projectKey, accessToken, callback) {
 
 exports.mapOrders = function(json) {
   var orders = json.results;
-  debug('mapOrder: ' + orders.length)
+  debug('mapOrder: ' + orders.length);
   for (var i = 0; i < orders.length; i++) {
-    exports.mapOrder(orders[i])
+    exports.mapOrder(orders[i]);
   }
-}
+};
 
 exports.mapOrder = function(order) {
   var doc = builder.create();
@@ -133,16 +132,16 @@ exports.mapOrder = function(order) {
   }
 
   if (order.customerGroup) {
-    var cg = order.customerGroup
-    var xCg = xml.e('customerGroup')
+    var cg = order.customerGroup;
+    var xCg = xml.e('customerGroup');
     exports.add(xCg, cg, 'id');
     exports.add(xCg, cg, 'version');
     exports.add(xCg, cg, 'name');
   }
 
   if (order.paymentInfo) {
-    var pi = order.paymentInfo
-    var xPi = xml.e('paymentInfo')
+    var pi = order.paymentInfo;
+    var xPi = xml.e('paymentInfo');
     exports.add(xPi, pi, 'paymentMethod');
     exports.add(xPi, pi, 'paymentID');
   }
@@ -176,8 +175,8 @@ exports.mapAddress = function(xml, address) {
 };
 
 exports.add = function (xml, elem, name) {
-  var value = elem[name]
+  var value = elem[name];
   if (value !== undefined) {
     xml.e(name).t(value).up();
   }
-}
+};
