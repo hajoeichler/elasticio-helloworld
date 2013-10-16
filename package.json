@@ -5,6 +5,6 @@
    "request" : "2.x"
   },
   "scripts": {
-    "test": "elasticio cmp:process -p services.js -x simplexml"
+    "test": "jasmine-node --coffee spec/ && elasticio cmp:process -p services.js -x simplexml"
   }
 }
