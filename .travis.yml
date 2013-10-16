@@ -4,4 +4,4 @@ node_js:
   - 0.8
 before_install: "npm -g install elasticio-cli jshint"
 install: "npm install xml2js"
-before_script: "jshint helloworld && touch ${HOME}/.env"
+before_script: "jshint helloworld && touch ${HOME}/elastic.json"
