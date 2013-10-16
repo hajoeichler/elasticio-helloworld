@@ -20,7 +20,10 @@ exports.process = function(msg, cfg, next) {
       }
     }
   };
-  next(data);
+
+  console.log("NEXT");
+  console.log(data)
+  next(null, data);
 };
 
 exports.login = function(projectKey, clientId, clientSecret, callback) {
