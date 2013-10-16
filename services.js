@@ -8,16 +8,13 @@ debug = function(msg) {
 
 exports.process = function(msg, cfg, next) {
   debug('process');
-  debug('process - msg: ' + msg);
-
-  var now = new Date();
-  var content = new Buffer("Hello World at " + now).toString('base64');
 
   exports.login(cfg.projectKey, cfg.clientId, cfg.clientSecret, getOrders, next);
 };
 
 exports.login = function(projectKey, clientId, clientSecret, callback, finish) {
   debug('login');
+
   var params = {
     'grant_type': 'client_credentials',
     'scope': 'manage_project:' + projectKey
@@ -44,13 +41,13 @@ exports.login = function(projectKey, clientId, clientSecret, callback, finish) {
       debug('login - token: ' + jsonBody.access_token);
       callback(projectKey, jsonBody.access_token, finish);
     } else {
-      throw new Error('Failed to get access token with status: ' + response.statusCode);
+      throw new Error('Failed to get access token - status: ' + response.statusCode);
     }
   });
 };
 
 exports.getOrders = function(projectKey, accessToken, callback, finish) {
-  debug('getOrders');
+  debug("getOrders of project '" + projectKey + "'");
   var request_options = {
     uri: 'https://api.sphere.io/' + projectKey + '/orders',
     method: 'GET',
@@ -66,17 +63,16 @@ exports.getOrders = function(projectKey, accessToken, callback, finish) {
 
     if (response.statusCode === 200) {
       var jsonBody = JSON.parse(body);
-      debug('SPHERE orders: ' + jsonBody.total);
       callback(jsonBody, finish);
     } else {
-      throw new Error('Problem on fetching orders: ' + body);
+      throw new Error("Problem on fetching orders (status " + response.statusCode + "): \n" + body);
     }
   });
 };
 
 exports.mapOrders = function(json, finish) {
+  debug('mapOrders: ' + orders.length);
   var orders = json.results;
-  debug('mapOrder: ' + orders.length);
 
   var data = {
     body: {},
@@ -95,6 +91,8 @@ exports.mapOrders = function(json, finish) {
 };
 
 exports.mapOrder = function(order) {
+  debug('mapOrder: ' + orders.id);
+
   var doc = builder.create();
   var xml = doc.begin('order');
 
