@@ -3,4 +3,4 @@ node_js:
   - 0.10.13
   - 0.8
 before_install: "npm -g install elasticio-cli jshint jasmine-node"
-before_script: "jshint services.js && echo '{}' > ${HOME}/elastic.json"
+before_script: "jshint services.js && echo '{}' > ${HOME}/elastic.json && touch ${HOME}/.env"
