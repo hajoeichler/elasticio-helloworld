@@ -71,8 +71,8 @@ exports.getOrders = function(projectKey, accessToken, callback, finish) {
 };
 
 exports.mapOrders = function(json, finish) {
-  debug('mapOrders: ' + orders.length);
   var orders = json.results;
+  debug('mapOrders: ' + orders.length);
 
   var data = {
     body: {},
@@ -91,7 +91,7 @@ exports.mapOrders = function(json, finish) {
 };
 
 exports.mapOrder = function(order) {
-  debug('mapOrder: ' + orders.id);
+  debug('mapOrder: ' + order.id);
 
   var doc = builder.create();
   var xml = doc.begin('order');
