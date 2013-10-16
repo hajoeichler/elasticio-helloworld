@@ -13,7 +13,7 @@ exports.process = function(msg, cfg, next) {
   var content = new Buffer("Hello World at " + now).toString('base64');
 
   var data = {
-    body : {}
+    body : {},
     attachments: {
       "data.xml" : {
         "content" : content
@@ -62,7 +62,7 @@ exports.getCustomers = function(projectKey, accessToken) {
     uri: 'https://api.sphere.io/' + projectKey + '/customers',
     method: 'GET',
     headers: {
-      'Auhorization': 'Bearer ' + accessToken,
+      'Auhorization': 'Bearer ' + accessToken
     },
     timeout: 3000
   };
