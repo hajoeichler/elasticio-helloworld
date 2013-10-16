@@ -21,8 +21,6 @@ exports.process = function(msg, cfg, next) {
     }
   };
 
-  console.log("NEXT");
-  console.log(data)
   next(null, data);
 };
 
