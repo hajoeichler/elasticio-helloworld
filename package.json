@@ -2,7 +2,7 @@
   "name": "elasticio-helloworld",
   "dependencies": {
     "xml2js": "0.2.8",
-    "xmlbuiler": "0.4.2",
+    "xmlbuilder": "0.4.2",
     "request": "2.x"
   },
   "scripts": {
