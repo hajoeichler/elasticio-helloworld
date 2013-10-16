@@ -1,15 +1,125 @@
 basedir = '../'
 
 services = require basedir + 'services.js'
+{parseString} = require 'xml2js'
 
-describe 'Elastic Integration', ->
-  beforeEach (done) ->
-    console.log('before')
-    services.login('snowflake2', 'QKStD-HjZLZGRqie2SPvzXSt', 'lnkNveGqslWKwt-qVE5yqVE0KBKM-sQL', done)
+describe 'elastic.io integration', ->
+  it 'login', ->
+    services.login('snowflake2', 'QKStD-HjZLZGRqie2SPvzXSt', 'lnkNveGqslWKwt-qVE5yqVE0KBKM-sQL', (p, t) ->
+      expect(t).not.toBeUndefined()
+      asyncSpecDone()
+    )
+    asyncSpecWait()
 
-#  it 'init', ->
-#    services.init(1, 2, 3)
+  it 'getOrders', ->
+    services.login('snowflake2', 'QKStD-HjZLZGRqie2SPvzXSt', 'lnkNveGqslWKwt-qVE5yqVE0KBKM-sQL', (p, t) ->
+      services.getOrders(p, t, (r) ->
+        expect(r).not.toBeUndefined()
+        asyncSpecDone()
+      )
+    )
+    asyncSpecWait()
 
-  it 'getCustomers', ->
-    services.getCustomers('snowflake2', exports.accessToken)
+  it 'full turn around', ->
+    services.login('snowflake2', 'QKStD-HjZLZGRqie2SPvzXSt', 'lnkNveGqslWKwt-qVE5yqVE0KBKM-sQL', (p, t) ->
+      services.getOrders(p, t, (r) ->
+        services.mapOrders(r)
+        asyncSpecDone()
+      )
+    )
+    asyncSpecWait()
 
+describe '#mapOrder', ->
+  it 'simple', ->
+    o = {
+      "id":"abc",
+      "version":1
+    }
+    doc = services.mapOrder(o)
+    console.log(doc.toString({ pretty: true }))
+    parseString doc, (err, result) ->
+      expect(result.order.id[0]).toBe 'abc'
+      expect(result.order.version[0]).toBe '1'
+      expect(result.order.orderState).toBeUndefined()
+
+  it 'taxedPrice', ->
+    o = {
+      "taxedPrice": {
+        "totalNet": {
+          "currencyCode": "EUR",
+          "centAmount": 1000
+        },
+        "totalGross": {
+          "currencyCode": "EUR",
+          "centAmount": 1190
+        },
+        "taxPortions": [{
+          "rate": "MwSt",
+          "amount": {
+            "currencyCode": "EUR",
+            "centAmount": 190
+          }
+        }]
+      }
+    }
+    doc = services.mapOrder(o)
+    console.log(doc.toString({ pretty: true }))
+    parseString doc, (err, result) ->
+      expect(result.order.taxedPrice).not.toBeUndefined()
+      expect(result.order.taxedPrice[0].totalNet[0].currencyCode[0]).toBe 'EUR'
+      expect(result.order.taxedPrice[0].totalNet[0].centAmount[0]).toBe '1000'
+      expect(result.order.taxedPrice[0].totalGross[0].currencyCode[0]).toBe 'EUR'
+      expect(result.order.taxedPrice[0].totalGross[0].centAmount[0]).toBe '1190'
+      expect(result.order.taxedPrice[0].taxPortions[0].rate[0]).toBe 'MwSt'
+      expect(result.order.taxedPrice[0].taxPortions[0].amount[0].currencyCode[0]).toBe 'EUR'
+      expect(result.order.taxedPrice[0].taxPortions[0].amount[0].centAmount[0]).toBe '190'
+
+  it 'shippingAddress', ->
+    o = {
+      "shippingAddress": {
+        "title": "Prof. Dr."
+      }
+    }
+    doc = services.mapOrder(o)
+    console.log(doc.toString({ pretty: true }))
+    parseString doc, (err, result) ->
+      expect(result.order.shippingAddress).not.toBeUndefined()
+      expect(result.order.shippingAddress[0].title[0]).toBe 'Prof. Dr.'
+
+  it 'billingAddress', ->
+    o = {
+      "billingAddress": {
+        "pOBox": "123456789"
+      }
+    }
+    doc = services.mapOrder(o)
+    console.log(doc.toString({ pretty: true }))
+    parseString doc, (err, result) ->
+      expect(result.order.billingAddress).not.toBeUndefined()
+      expect(result.order.billingAddress[0].pOBox[0]).toBe '123456789'
+
+  it 'customerGroup', ->
+    o = {
+      "customerGroup": {
+        "name": "B2B"
+      }
+    }
+    doc = services.mapOrder(o)
+    console.log(doc.toString({ pretty: true }))
+    parseString doc, (err, result) ->
+      expect(result.order.customerGroup).not.toBeUndefined()
+      expect(result.order.customerGroup[0].name[0]).toBe 'B2B'
+
+  it 'paymentInfo', ->
+    o = {
+      "paymentInfo": {
+        "paymentID": "7"
+        "paymentMethod": "Cash"
+      }
+    }
+    doc = services.mapOrder(o)
+    console.log(doc.toString({ pretty: true }))
+    parseString doc, (err, result) ->
+      expect(result.order.paymentInfo).not.toBeUndefined()
+      expect(result.order.paymentInfo[0].paymentID[0]).toBe '7'
+      expect(result.order.paymentInfo[0].paymentMethod[0]).toBe 'Cash'
