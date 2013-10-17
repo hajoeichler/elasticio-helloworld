@@ -174,7 +174,7 @@ exports.mapOrder = function(order) {
 
       if (variant.attributes !== undefined) {
         for (var l = 0; l < variant.attributes.length; l++) {
-          exports.attributes(xVariant.e('attributes'), variant.attributes[l])
+          exports.attributes(xVariant.e('attributes'), variant.attributes[l]);
         }
       }
     }
@@ -197,7 +197,7 @@ exports.money = function(xml, elem, name) {
 };
 
 exports.price = function(xml, elem) {
-  exports.priceElem(xml.e('price'), elem.price)
+  exports.priceElem(xml.e('price'), elem.price);
 };
 
 exports.priceElem = function(xP, p) {
