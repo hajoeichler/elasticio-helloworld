@@ -87,7 +87,6 @@ exports.mapOrders = function(json, finish) {
       content: base64
     };
   }
-  debug('1' + finish);
   finish(null, data);
 };
 
