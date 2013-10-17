@@ -114,8 +114,8 @@ exports.mapOrder = function(order) {
     exports.money(xPrice, price, 'totalNet');
     exports.money(xPrice, price, 'totalGross');
 
-    for (var i = 0; i < price.taxPortions.length; i++) {
-      var t = price.taxPortions[i];
+    for (var i1 = 0; i1 < price.taxPortions.length; i1++) {
+      var t = price.taxPortions[i1];
       var xT = xPrice.e('taxPortions');
       xT.e('rate').t(t.rate);
       exports.money(xT, t, 'amount');
@@ -150,8 +150,8 @@ exports.mapOrder = function(order) {
   }
 
   if (order.lineItems !== undefined) {
-    for (var j = 0; j < order.lineItems.length; j++) {
-      var li = order.lineItems[j];
+    for (var i2 = 0; i2 < order.lineItems.length; i2++) {
+      var li = order.lineItems[i2];
       var xLi = xml.e('lineItems');
       exports.add(xLi, li, 'id');
       exports.add(xLi, li, 'productId');
@@ -162,13 +162,13 @@ exports.mapOrder = function(order) {
       exports.add(xVariant, variant, 'id');
       exports.add(xVariant, variant, 'sku');
       if (variant.prices !== undefined) {
-        for (var k = 0; k < variant.prices.length; k++) {
-          exports.priceElem(xVariant.e('prices'), variant.prices[k]);
+        for (var i3 = 0; i3 < variant.prices.length; i3++) {
+          exports.priceElem(xVariant.e('prices'), variant.prices[i3]);
         }
       }
       if (variant.attributes !== undefined) {
-        for (var l = 0; l < variant.attributes.length; l++) {
-          exports.attributes(xVariant.e('attributes'), variant.attributes[l]);
+        for (var i4 = 0; i4 < variant.attributes.length; i4++) {
+          exports.attributes(xVariant.e('attributes'), variant.attributes[i4]);
         }
       }
 
