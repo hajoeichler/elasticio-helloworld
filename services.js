@@ -167,13 +167,15 @@ exports.mapOrder = function(order) {
       exports.add(xVariant, variant, 'sku');
 
       if (variant.prices !== undefined) {
-//        for (var j = 0; j < variant.prices.length; j++) {
-//        }
+        for (var k = 0; k < variant.prices.length; k++) {
+          exports.priceElem(xVariant.e('prices'), variant.prices[k]);
+        }
       }
 
       if (variant.attributes !== undefined) {
-//        for (var j = 0; j < variant.attributes.length; j++) {
-//        }
+        for (var l = 0; l < variant.attributes.length; l++) {
+          exports.attributes(xVariant.e('attributes'), variant.attributes[l])
+        }
       }
     }
   }
@@ -182,15 +184,23 @@ exports.mapOrder = function(order) {
   return doc;
 };
 
+exports.attributes = function(xml, elem) {
+  xml
+    .e('name').t(elem.name).up()
+    .e('value').t(elem.value);
+};
+
 exports.money = function(xml, elem, name) {
   xml.e(name)
     .e('currencyCode').t(elem[name].currencyCode).up()
     .e('centAmount').t(elem[name].centAmount);
 };
 
-exports.price = function(xml, elem, name) {
-  var p = elem.price;
-  var xP = xml.e('price');
+exports.price = function(xml, elem) {
+  exports.priceElem(xml.e('price'), elem.price)
+};
+
+exports.priceElem = function(xP, p) {
   exports.money(xP, p, 'value');
   exports.add(xP, p, 'country');
   exports.customerGroup(xP, p);
