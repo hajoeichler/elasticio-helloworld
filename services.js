@@ -156,27 +156,25 @@ exports.mapOrder = function(order) {
       exports.add(xLi, li, 'id');
       exports.add(xLi, li, 'productId');
       exports.add(xLi, li, 'name');
-      exports.add(xLi, li, 'quantity');
-
-      exports.price(xLi, li);
-      exports.taxRate(xLi, li);
 
       var variant = li.variant;
       var xVariant = xLi.e('variant');
       exports.add(xVariant, variant, 'id');
       exports.add(xVariant, variant, 'sku');
-
       if (variant.prices !== undefined) {
         for (var k = 0; k < variant.prices.length; k++) {
           exports.priceElem(xVariant.e('prices'), variant.prices[k]);
         }
       }
-
       if (variant.attributes !== undefined) {
         for (var l = 0; l < variant.attributes.length; l++) {
           exports.attributes(xVariant.e('attributes'), variant.attributes[l]);
         }
       }
+
+      exports.price(xLi, li);
+      exports.add(xLi, li, 'quantity');
+      exports.taxRate(xLi, li);
     }
   }
 
