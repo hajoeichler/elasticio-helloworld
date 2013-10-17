@@ -96,17 +96,11 @@ exports.mapOrder = function(order) {
   var doc = builder.create();
   var xml = doc.begin('order');
 
-  exports.add(xml, order, 'id');
-  exports.add(xml, order, 'version');
-  exports.add(xml, order, 'createdAt');
-  exports.add(xml, order, 'lastModifiedAt');
-  exports.add(xml, order, 'customerId');
-  exports.add(xml, order, 'customerEmail');
-  exports.add(xml, order, 'eevoCusomterId');
-  exports.add(xml, order, 'country');
-  exports.add(xml, order, 'orderState');
-  exports.add(xml, order, 'shipmentState');
-  exports.add(xml, order, 'paymentState');
+  var attribs = [ 'id', 'version', 'createdAt', 'lastModifiedAt', 'customerId', 'customerEmail',
+                  'eevoCusomterId', 'country', 'orderState', 'shipmentState', 'paymentState' ];
+  for (var i0 = 0; i0 < attribs.length; i0++) {
+    exports.add(xml, order, attribs[i0]);
+  }
 
   if (order.taxedPrice !== undefined) {
     var price = order.taxedPrice;
@@ -205,14 +199,12 @@ exports.priceElem = function(xP, p) {
 };
 
 exports.taxRate = function(xml, elem) {
-    var tr = elem.taxRate;
-    var xTr = xml.e('taxRate');
-    exports.add(xTr, tr, 'id');
-    exports.add(xTr, tr, 'name');
-    exports.add(xTr, tr, 'amount');
-    exports.add(xTr, tr, 'includedInPrice');
-    exports.add(xTr, tr, 'country');
-    exports.add(xTr, tr, 'state');
+  var tr = elem.taxRate;
+  var xTr = xml.e('taxRate');
+  var attribs = [ 'id', 'name', 'amount', 'includedInPrice', 'country', 'state' ];
+  for (var i = 0; i < attribs.length; i++) {
+    exports.add(xTr, tr, attribs[i]);
+  }
 };
 
 exports.customerGroup = function(xml, elem) {
@@ -226,27 +218,11 @@ exports.customerGroup = function(xml, elem) {
 };
 
 exports.mapAddress = function(xml, address) {
-  exports.add(xml, address, 'id');
-  exports.add(xml, address, 'title');
-  exports.add(xml, address, 'salutation');
-  exports.add(xml, address, 'firstName');
-  exports.add(xml, address, 'lastName');
-  exports.add(xml, address, 'streetName');
-  exports.add(xml, address, 'streetNumber');
-  exports.add(xml, address, 'additionalStreetInfo');
-  exports.add(xml, address, 'postalCode');
-  exports.add(xml, address, 'city');
-  exports.add(xml, address, 'region');
-  exports.add(xml, address, 'state');
-  exports.add(xml, address, 'country');
-  exports.add(xml, address, 'company');
-  exports.add(xml, address, 'department');
-  exports.add(xml, address, 'building');
-  exports.add(xml, address, 'apartment');
-  exports.add(xml, address, 'pOBox');
-  exports.add(xml, address, 'phone');
-  exports.add(xml, address, 'mobile');
-  exports.add(xml, address, 'email');
+  var attribs = [ 'id', 'title', 'salutation', 'firstName', 'lastName', 'streetName', 'streetNumber', 'additionalStreetInfo', 'postalCode',
+                  'city', 'region', 'state', 'country', 'company', 'department', 'building', 'apartment', 'pOBox', 'phone', 'mobile', 'email' ];
+  for (var i = 0; i < attribs.length; i++) {
+    exports.add(xml, address, attribs[i]);
+  }
 };
 
 exports.add = function (xml, elem, name) {
