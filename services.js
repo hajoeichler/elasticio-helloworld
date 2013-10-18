@@ -9,7 +9,9 @@ debug = function(msg) {
 exports.process = function(msg, cfg, next) {
   debug('process');
 
-  exports.login(cfg.projectKey, cfg.clientId, cfg.clientSecret, exports.getOrders, next);
+  exports.mapOrders(msg.body, next);
+
+  //exports.login(cfg.projectKey, cfg.clientId, cfg.clientSecret, exports.getOrders, next);
 };
 
 exports.login = function(projectKey, clientId, clientSecret, callback, finish) {
