@@ -174,12 +174,24 @@ exports.mapOrder = function(order) {
 
   if (order.customLineItems !== undefined) {
     for (var i5 = 0; i5 < order.customLineItems.length; i5++) {
-      // TODO
+      exports.customLineItem(xml.e('customLineItems'), order.customLineItems[i5]);
     }
   }
 
   debug('Order in xml: ' + doc.toString());
   return doc;
+};
+
+exports.customLineItem = function(xml, elem) {
+  exports.add(xml, elem.name, 'de', 'name');
+  exports.money(xml, elem, 'money');
+  exports.add(xml, elem, 'slug');
+  exports.add(xml, elem, 'quantity');
+
+//    "taxCategory" : {
+//      "id" : "2246b2fb-0531-47dd-84ec-c004d7fef3ce",
+//     "typeId" : "tax-category"
+//    }
 };
 
 exports.attributes = function(xml, elem) {
