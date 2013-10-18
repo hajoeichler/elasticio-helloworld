@@ -139,7 +139,7 @@ exports.mapOrder = function(order) {
     exports.add(xSi, si, 'shippingMethodName');
     exports.add(xSi, si, 'trackingData');
 
-    exports.price(xSi, si);
+    exports.money(xSi, si, 'price');
     exports.taxRate(xSi, si);
   }
 
@@ -149,7 +149,7 @@ exports.mapOrder = function(order) {
       var xLi = xml.e('lineItems');
       exports.add(xLi, li, 'id');
       exports.add(xLi, li, 'productId');
-      exports.add(xLi, li, 'name');
+      exports.add(xLi, li.name, 'de', 'name');
 
       var variant = li.variant;
       var xVariant = xLi.e('variant');
@@ -172,7 +172,13 @@ exports.mapOrder = function(order) {
     }
   }
 
-  debug('order in xml' + doc.toString());
+  if (order.customLineItems !== undefined) {
+    for (var i5 = 0; i5 < order.customLineItems.length; i5++) {
+      // TODO
+    }
+  }
+
+  debug('Order in xml: ' + doc.toString());
   return doc;
 };
 
@@ -225,9 +231,12 @@ exports.mapAddress = function(xml, address) {
   }
 };
 
-exports.add = function (xml, elem, name) {
-  var value = elem[name];
+exports.add = function (xml, elem, attr, xAttr) {
+  if (xAttr === undefined) {
+    xAttr = attr;
+  }
+  var value = elem[attr];
   if (value !== undefined) {
-    xml.e(name).t(value).up();
+    xml.e(xAttr).t(value).up();
   }
 };
