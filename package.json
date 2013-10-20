@@ -7,6 +7,6 @@
     "request": "2.x"
   },
   "scripts": {
-    "test": "jasmine-node --coffee spec/ && elasticio cmp:process -p services.js -x simplexml"
+    "test": "jasmine-node --coffee spec/ && elasticio cmp:process -p services.js -x noOrders"
   }
 }
