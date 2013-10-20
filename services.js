@@ -81,6 +81,7 @@ exports.mapOrders = function(json, finish) {
 
   for (var i = 0; i < orders.length; i++) {
     var xmlOrder = exports.mapOrder(orders[i]);
+    debug(xmlOrder);
     var fileName = orders[i].id + ".xml";
     var base64 = new Buffer(xmlOrder).toString('base64');
     data.attachments[fileName] = {
@@ -183,6 +184,7 @@ exports.mapOrder = function(order) {
 };
 
 exports.customLineItem = function(xml, elem) {
+  exports.add(xml, elem, 'id');
   exports.add(xml, elem.name, 'de', 'name');
   exports.money(xml, elem, 'money');
   exports.add(xml, elem, 'slug');
