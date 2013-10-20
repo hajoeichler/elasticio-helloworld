@@ -2,6 +2,17 @@ basedir = '../'
 
 services = require basedir + 'services.js'
 {parseString} = require 'xml2js'
+libxmljs = require 'libxmljs'
+
+describe 'validateXML', ->
+  xit 'validate', ->
+    xsd = ''
+    xsdDoc = libxmljs.parseXmlString(xsd);
+
+    xml = ''
+    xmlDoc = libxmljs.parseXmlString(xml)
+    expect(xmlDoc.validate(xsdDoc)).toBe true
+
 
 describe '#mapOrder', ->
   it 'simple', ->
@@ -10,7 +21,7 @@ describe '#mapOrder', ->
       "version":1
     }
     doc = services.mapOrder(o)
-    console.log(doc.toString({ pretty: true }))
+    console.log(doc)
     parseString doc, (err, result) ->
       expect(result.order.id[0]).toBe 'abc'
       expect(result.order.version[0]).toBe '1'
@@ -37,7 +48,7 @@ describe '#mapOrder', ->
       }
     }
     doc = services.mapOrder(o)
-    console.log(doc.toString({ pretty: true }))
+    console.log(doc)
     parseString doc, (err, result) ->
       expect(result.order.taxedPrice).not.toBeUndefined()
       expect(result.order.taxedPrice[0].totalNet[0].currencyCode[0]).toBe 'EUR'
@@ -55,7 +66,7 @@ describe '#mapOrder', ->
       }
     }
     doc = services.mapOrder(o)
-    console.log(doc.toString({ pretty: true }))
+    console.log(doc)
     parseString doc, (err, result) ->
       expect(result.order.shippingAddress).not.toBeUndefined()
       expect(result.order.shippingAddress[0].title[0]).toBe 'Prof. Dr.'
@@ -67,7 +78,7 @@ describe '#mapOrder', ->
       }
     }
     doc = services.mapOrder(o)
-    console.log(doc.toString({ pretty: true }))
+    console.log(doc)
     parseString doc, (err, result) ->
       expect(result.order.billingAddress).not.toBeUndefined()
       expect(result.order.billingAddress[0].pOBox[0]).toBe '123456789'
@@ -79,7 +90,7 @@ describe '#mapOrder', ->
       }
     }
     doc = services.mapOrder(o)
-    console.log(doc.toString({ pretty: true }))
+    console.log(doc)
     parseString doc, (err, result) ->
       expect(result.order.customerGroup).not.toBeUndefined()
       expect(result.order.customerGroup[0].name[0]).toBe 'B2B'
@@ -92,7 +103,7 @@ describe '#mapOrder', ->
       }
     }
     doc = services.mapOrder(o)
-    console.log(doc.toString({ pretty: true }))
+    console.log(doc)
     parseString doc, (err, result) ->
       expect(result.order.paymentInfo).not.toBeUndefined()
       expect(result.order.paymentInfo[0].paymentID[0]).toBe '7'
@@ -111,7 +122,7 @@ describe '#mapOrder', ->
       }
     }
     doc = services.mapOrder(o)
-    console.log(doc.toString({ pretty: true }))
+    console.log(doc)
     parseString doc, (err, result) ->
       expect(result.order.shippingInfo).not.toBeUndefined()
       expect(result.order.shippingInfo[0].price[0].centAmount[0]).toBe '999'

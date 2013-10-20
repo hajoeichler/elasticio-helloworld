@@ -10,8 +10,6 @@ exports.process = function(msg, cfg, next) {
   debug('process');
 
   exports.mapOrders(msg.body, next);
-
-  //exports.login(cfg.projectKey, cfg.clientId, cfg.clientSecret, exports.getOrders, next);
 };
 
 exports.login = function(projectKey, clientId, clientSecret, callback, finish) {
@@ -84,7 +82,7 @@ exports.mapOrders = function(json, finish) {
   for (var i = 0; i < orders.length; i++) {
     var xmlOrder = exports.mapOrder(orders[i]);
     var fileName = orders[i].id + ".xml";
-    var base64 = new Buffer(xmlOrder.toString()).toString('base64');
+    var base64 = new Buffer(xmlOrder).toString('base64');
     data.attachments[fileName] = {
       content: base64
     };
@@ -93,10 +91,11 @@ exports.mapOrders = function(json, finish) {
 };
 
 exports.mapOrder = function(order) {
-  debug('mapOrder: ' + order.id);
+  if (order.id !== undefined) {
+    debug('mapOrder: ' + order.id);
+  }
 
-  var doc = builder.create();
-  var xml = doc.begin('order');
+  var xml = builder.create('order', { 'version': '1.0', 'encoding': 'UTF-8', 'standalone': true });
 
   var attribs = [ 'id', 'version', 'createdAt', 'lastModifiedAt', 'customerId', 'customerEmail',
                   'eevoCusomterId', 'country', 'orderState', 'shipmentState', 'paymentState' ];
@@ -180,8 +179,7 @@ exports.mapOrder = function(order) {
     }
   }
 
-  debug('Order in xml: ' + doc.toString());
-  return doc;
+  return xml.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' });
 };
 
 exports.customLineItem = function(xml, elem) {
