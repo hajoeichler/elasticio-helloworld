@@ -74,9 +74,14 @@ exports.mapOrders = function(json, finish) {
   var orders = json.results;
   debug('mapOrders: ' + orders.length);
 
+  var now = new Buffer(new Date().toISOString()).toString('base64');
   var data = {
     body: {},
-    attachments: {}
+    attachments: {
+      "touch-timestamp.txt": {
+        content: now
+      }
+    }
   };
 
   for (var i = 0; i < orders.length; i++) {
