@@ -23,6 +23,7 @@ describe '#mapOrder', ->
     doc = services.mapOrder(o)
     console.log(doc)
     parseString doc, (err, result) ->
+      expect(result.order.xsdVersion[0]).toBe '0.6'
       expect(result.order.id[0]).toBe 'abc'
       expect(result.order.version[0]).toBe '1'
       expect(result.order.orderState).toBeUndefined()

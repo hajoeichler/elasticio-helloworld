@@ -97,6 +97,7 @@ exports.mapOrder = function(order) {
   }
 
   var xml = builder.create('order', { 'version': '1.0', 'encoding': 'UTF-8', 'standalone': true });
+  xml.e('xsdVersion').t('0.6');
 
   var attribs = [ 'id', 'version', 'createdAt', 'lastModifiedAt', 'customerId', 'customerEmail',
                   'eevoCusomterId', 'country', 'orderState', 'shipmentState', 'paymentState' ];
