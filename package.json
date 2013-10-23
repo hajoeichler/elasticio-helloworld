@@ -37,6 +37,6 @@
   },
   "main": "./app/services.js",
   "scripts": {
-    "test": "jasmine-node --coffee spec && elasticio cmp:process -p app/services.js -x noOrders"
+    "test": "jasmine-node --captureExceptions --coffee spec && elasticio cmp:process -p app/services.js -x noOrders"
   }
 }
