@@ -39,7 +39,7 @@ module.exports = (grunt)->
       default: ["Gruntfile.coffee", "src/**/*.coffee"]
 
     clean:
-      default: "app"
+      default: "build"
 
     coffee:
       options:
@@ -49,8 +49,15 @@ module.exports = (grunt)->
         flatten: true
         cwd: "src/coffee"
         src: ["*.coffee"]
-        dest: "app"
+        dest: "build/app"
         ext: ".js"
+      test:
+        expand: true
+        flatten: true
+        cwd: "src/spec"
+        src: ["*.spec.coffee"]
+        dest: "build/test"
+        ext: ".spec.js"
 
     concat:
       options:
@@ -58,10 +65,17 @@ module.exports = (grunt)->
       default:
         expand: true
         flatten: true
-        cwd: "app"
+        cwd: "build/app"
         src: ["*.js"]
-        dest: "app"
+        dest: "build/app"
         ext: ".js"
+      test:
+        expand: true
+        flatten: true
+        cwd: "build/test"
+        src: ["*.spec.js"]
+        dest: "build/test"
+        ext: ".spec.js"
 
     # watching for changes
     watch:

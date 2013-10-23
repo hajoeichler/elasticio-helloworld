@@ -35,8 +35,8 @@
   "engines": {
     "node": ">= 0.8.16"
   },
-  "main": "./app/services.js",
+  "main": "./build/app/services.js",
   "scripts": {
-    "test": "jasmine-node --captureExceptions --coffee spec && elasticio cmp:process -p app/services.js -x noOrders"
+    "test": "jasmine-node --captureExceptions build/test && elasticio cmp:process -p build/app/services.js -x noOrders"
   }
 }
