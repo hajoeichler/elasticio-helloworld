@@ -1,4 +1,4 @@
-basedir = '../'
+basedir = '../app/'
 
 services = require basedir + 'services.js'
 sphere = require basedir + 'sphere.js'

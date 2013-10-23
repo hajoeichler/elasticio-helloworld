@@ -1,4 +1,4 @@
-basedir = '../'
+basedir = '../app/'
 
 services = require basedir + 'services.js'
 {parseString} = require 'xml2js'
