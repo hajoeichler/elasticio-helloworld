@@ -3,7 +3,7 @@
   "description": "Sample implementation for elastic.io data mapper that creates a file for each customer in SPHERE.IO",
   "actions": {
     "services": {
-      "main":"./services.js",
+      "main":"./build/app/services.js",
       "title": "Services"
     }
   }
