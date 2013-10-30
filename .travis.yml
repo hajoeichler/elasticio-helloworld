@@ -6,7 +6,7 @@ node_js:
 before_script:
 - echo '{}' > ${HOME}/elastic.json
 - touch ${HOME}/.env
-- create_config.sh
+- ./create_config.sh
 - grunt
 env:
   global:
