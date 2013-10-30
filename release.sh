@@ -12,3 +12,4 @@ git push origin production
 
 git checkout master
 npm version patch
+git push origin master
