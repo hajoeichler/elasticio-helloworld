@@ -6,9 +6,9 @@ node_js:
 before_script:
 - echo '{}' > ${HOME}/elastic.json
 - touch ${HOME}/.env
-- sed -i "s;^client_id:.*,;client_id: ${SPHERE_CLIENT_ID},;g" config.js
-- sed -i "s;^client_secret:.*,;client_secret: ${SPHERE_CLIENT_SECRET},;g" config.js
-- sed -i "s;^project_key:.*;project_key: ${SPHERE_PROJECT_KEY};g" config.js
+- sed -i "s;client_id:.*,;client_id: "${SPHERE_CLIENT_ID}",;g" config.js
+- sed -i "s;client_secret:.*,;client_secret: "${SPHERE_CLIENT_SECRET}",;g" config.js
+- sed -i "s;project_key:.*;project_key: "${SPHERE_PROJECT_KEY}";g" config.js
 - grunt
 env:
   global:
