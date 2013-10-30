@@ -2,7 +2,7 @@
 
 set -e
 
-npm version major
+npm version minor
 git checkout production
 git merge master
 grunt
@@ -11,4 +11,4 @@ git commit -m "Add generated code for production environment."
 git push origin production
 
 git checkout master
-npm version minor
+npm version patch
